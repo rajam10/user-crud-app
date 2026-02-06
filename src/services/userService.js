@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001';
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'https://jsonplaceholder.typicode.com';
 
 class UserService {
   constructor() {
@@ -22,45 +22,87 @@ class UserService {
 
   async getAllUsers() {
     try {
-      const response = await this.api.get('/api/users');
+      // Handle different API structures
+      const endpoint = API_BASE_URL.includes('jsonplaceholder') ? '/users' : '/api/users';
+      const response = await this.api.get(endpoint);
+      
+      // Transform JSONPlaceholder data to match our structure
+      if (API_BASE_URL.includes('jsonplaceholder')) {
+        return response.data.slice(0, 5).map(user => ({
+          id: user.id,
+          firstName: user.name.split(' ')[0],
+          lastName: user.name.split(' ').slice(1).join(' '),
+          phoneNumber: user.phone,
+          email: user.email
+        }));
+      }
+      
       return response.data;
-    } catch {
+    } catch (error) {
       throw new Error('Failed to fetch users');
     }
   }
 
   async getUserById(id) {
     try {
-      const response = await this.api.get(`/api/users/${id}`);
+      const endpoint = API_BASE_URL.includes('jsonplaceholder') ? `/users/${id}` : `/api/users/${id}`;
+      const response = await this.api.get(endpoint);
+      
+      if (API_BASE_URL.includes('jsonplaceholder')) {
+        const user = response.data;
+        return {
+          id: user.id,
+          firstName: user.name.split(' ')[0],
+          lastName: user.name.split(' ').slice(1).join(' '),
+          phoneNumber: user.phone,
+          email: user.email
+        };
+      }
+      
       return response.data;
-    } catch {
+    } catch (error) {
       throw new Error('Failed to fetch user');
     }
   }
 
   async createUser(userData) {
     try {
-      const response = await this.api.post('/api/users', userData);
+      const endpoint = API_BASE_URL.includes('jsonplaceholder') ? '/users' : '/api/users';
+      const response = await this.api.post(endpoint, userData);
+      
+      // For demo purposes, return the data with a mock ID
+      if (API_BASE_URL.includes('jsonplaceholder')) {
+        return { id: Date.now(), ...userData };
+      }
+      
       return response.data;
-    } catch {
+    } catch (error) {
       throw new Error('Failed to create user');
     }
   }
 
   async updateUser(id, userData) {
     try {
-      const response = await this.api.put(`/api/users/${id}`, userData);
+      const endpoint = API_BASE_URL.includes('jsonplaceholder') ? `/users/${id}` : `/api/users/${id}`;
+      const response = await this.api.put(endpoint, userData);
+      
+      // For demo purposes, return the updated data
+      if (API_BASE_URL.includes('jsonplaceholder')) {
+        return { id, ...userData };
+      }
+      
       return response.data;
-    } catch {
+    } catch (error) {
       throw new Error('Failed to update user');
     }
   }
 
   async deleteUser(id) {
     try {
-      await this.api.delete(`/api/users/${id}`);
+      const endpoint = API_BASE_URL.includes('jsonplaceholder') ? `/users/${id}` : `/api/users/${id}`;
+      await this.api.delete(endpoint);
       return true;
-    } catch {
+    } catch (error) {
       throw new Error('Failed to delete user');
     }
   }

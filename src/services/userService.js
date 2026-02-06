@@ -22,7 +22,7 @@ class UserService {
 
   async getAllUsers() {
     try {
-      const response = await this.api.get('/users');
+      const response = await this.api.get('/api/users');
       return response.data;
     } catch {
       throw new Error('Failed to fetch users');
@@ -31,7 +31,7 @@ class UserService {
 
   async getUserById(id) {
     try {
-      const response = await this.api.get(`/users/${id}`);
+      const response = await this.api.get(`/api/users/${id}`);
       return response.data;
     } catch {
       throw new Error('Failed to fetch user');
@@ -40,7 +40,7 @@ class UserService {
 
   async createUser(userData) {
     try {
-      const response = await this.api.post('/users', userData);
+      const response = await this.api.post('/api/users', userData);
       return response.data;
     } catch {
       throw new Error('Failed to create user');
@@ -49,7 +49,7 @@ class UserService {
 
   async updateUser(id, userData) {
     try {
-      const response = await this.api.put(`/users/${id}`, userData);
+      const response = await this.api.put(`/api/users/${id}`, userData);
       return response.data;
     } catch {
       throw new Error('Failed to update user');
@@ -58,7 +58,7 @@ class UserService {
 
   async deleteUser(id) {
     try {
-      await this.api.delete(`/users/${id}`);
+      await this.api.delete(`/api/users/${id}`);
       return true;
     } catch {
       throw new Error('Failed to delete user');

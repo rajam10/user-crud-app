@@ -28,7 +28,7 @@ export const userFormConfig = [
     label: 'Phone Number',
     type: 'tel',
     required: true,
-    validation: Joi.string().pattern(/^[\+]?[1-9][\d]{0,15}$/).required().messages({
+    validation: Joi.string().pattern(/^[+]?[1-9]\d{0,15}$/).required().messages({
       'string.empty': 'Phone number is required',
       'string.pattern.base': 'Please enter a valid phone number'
     })

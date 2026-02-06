@@ -1,0 +1,18 @@
+{
+  "users": [
+    {
+      "firstName": "Rajabalan",
+      "lastName": "Manoharadas",
+      "phoneNumber": "+917868812415",
+      "email": "rajabalan@gmail.com",
+      "id": 3
+    },
+    {
+      "firstName": "Hello",
+      "lastName": "World",
+      "phoneNumber": "+916372646372",
+      "email": "raja.m@gmail.com",
+      "id": 4
+    }
+  ]
+}

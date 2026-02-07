@@ -22,10 +22,6 @@ function App() {
   const [notification, setNotification] = useState({ open: false, message: '', severity: 'success' });
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    loadUsers();
-  }, [loadUsers]);
-
   const loadUsers = useCallback(async () => {
     setLoading(true);
     setError('');
@@ -41,6 +37,10 @@ function App() {
       setLoading(false);
     }
   }, [setLoading, setError, setUsers]);
+
+  useEffect(() => {
+    loadUsers();
+  }, [loadUsers]);
 
   const handleAddUser = () => {
     setEditingUser(null);

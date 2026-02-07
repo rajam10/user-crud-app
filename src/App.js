@@ -27,7 +27,7 @@ function App() {
     console.log(users);
   }, []);
 
-  const loadUsers = async () => {
+  const loadUsers = useCallback(async () => {
     setLoading(true);
     setError('');
     try {
@@ -43,7 +43,7 @@ function App() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [setLoading, setError, setUsers]);
 
   const handleAddUser = () => {
     setEditingUser(null);

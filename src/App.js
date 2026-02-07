@@ -73,7 +73,7 @@ function App() {
         const newUser = await userService.createUser(userData);
         
         // Add to local state
-        setUsers(prevUsers => [...prevUsers, newUser]);
+        loadUsers();
         
         showNotification('User created successfully!');
       }

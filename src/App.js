@@ -71,8 +71,9 @@ function App() {
       } else {
         // Create new user
         const newUser = await userService.createUser(userData);
-        const userData = await userService.getAllUsers();
-        setUsers(userData);
+        console.log(newUser);
+        const userDataNew = await userService.getAllUsers();
+        setUsers(userDataNew);
         setError('');
         // Add to local state
         //setUsers(prevUsers => [...prevUsers, newUser]);

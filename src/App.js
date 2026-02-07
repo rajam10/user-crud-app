@@ -24,6 +24,7 @@ function App() {
 
   useEffect(() => {
     loadUsers();
+    console.log(users);
   }, []);
 
   const loadUsers = async () => {

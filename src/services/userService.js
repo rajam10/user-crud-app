@@ -22,7 +22,7 @@ class UserService {
   async getAllUsers() {
     try {
       const apiUrl = this.getApiUrl();
-      const endpoint = `${apiUrl}/users`;
+      const endpoint = `${apiUrl}/api/users`;
       const response = await this.api.get(endpoint);
       
       // Transform JSONPlaceholder data to match our structure
@@ -46,7 +46,7 @@ class UserService {
   async getUserById(id) {
     try {
       const apiUrl = this.getApiUrl();
-      const endpoint = `${apiUrl}/users/${id}`; // Simplified for JSONPlaceholder
+      const endpoint = `${apiUrl}/api/users/${id}`; // Simplified for JSONPlaceholder
       const response = await this.api.get(endpoint);
       
       if (apiUrl.includes('jsonplaceholder')) {
@@ -70,7 +70,7 @@ class UserService {
   async createUser(userData) {
     try {
       const apiUrl = this.getApiUrl();
-      const endpoint = `${apiUrl}/users`;
+      const endpoint = `${apiUrl}/api/users`;
       await this.api.post(endpoint, userData); // Call API, but it won't persist
       
       // For demo purposes with JSONPlaceholder, return mock data
@@ -88,7 +88,7 @@ class UserService {
   async updateUser(id, userData) {
     try {
       const apiUrl = this.getApiUrl();
-      const endpoint = `${apiUrl}/users/${id}`;
+      const endpoint = `${apiUrl}/api/users/${id}`;
       await this.api.put(endpoint, userData); // Call API, but it won't persist
       
       // For demo purposes with JSONPlaceholder, return mock data
@@ -106,7 +106,7 @@ class UserService {
   async deleteUser(id) {
     try {
       const apiUrl = this.getApiUrl();
-      const endpoint = `${apiUrl}/users/${id}`;
+      const endpoint = `${apiUrl}/api/users/${id}`;
       await this.api.delete(endpoint); // Call API, but it won't persist
       
       // For demo purposes with JSONPlaceholder, just return true

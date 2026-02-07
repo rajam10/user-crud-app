@@ -24,8 +24,7 @@ function App() {
 
   useEffect(() => {
     loadUsers();
-    console.log(users);
-  }, []);
+  }, [loadUsers]);
 
   const loadUsers = useCallback(async () => {
     setLoading(true);
@@ -33,12 +32,10 @@ function App() {
     try {
       const userData = await userService.getAllUsers();
       setUsers(userData);
-      // Clear any previous errors on successful load
       setError('');
     } catch (error) {
       setError('Failed to load users. Please check your internet connection.');
       console.error('Error loading users:', error);
-      // Set empty array so UI shows "no users" message instead of loading
       setUsers([]);
     } finally {
       setLoading(false);

@@ -32,9 +32,13 @@ function App() {
     try {
       const userData = await userService.getAllUsers();
       setUsers(userData);
+      // Clear any previous errors on successful load
+      setError('');
     } catch (error) {
-      setError('Failed to load users. Please check if the API server is running.');
+      setError('Failed to load users. Please check your internet connection.');
       console.error('Error loading users:', error);
+      // Set empty array so UI shows "no users" message instead of loading
+      setUsers([]);
     } finally {
       setLoading(false);
     }
@@ -54,13 +58,28 @@ function App() {
     setLoading(true);
     try {
       if (editingUser) {
-        await userService.updateUser(editingUser.id, userData);
+        // Update existing user
+        const { id, ...dataToUpdate } = userData;
+        await userService.updateUser(editingUser.id, dataToUpdate);
+        
+        // Update in local state
+        setUsers(prevUsers => 
+          prevUsers.map(user => 
+            user.id === editingUser.id ? { ...user, ...userData } : user
+          )
+        );
+        
         showNotification('User updated successfully!');
       } else {
-        await userService.createUser(userData);
+        // Create new user
+        const newUser = await userService.createUser(userData);
+        
+        // Add to local state
+        setUsers(prevUsers => [...prevUsers, newUser]);
+        
         showNotification('User created successfully!');
       }
-      await loadUsers();
+      
       setFormOpen(false);
       setEditingUser(null);
     } catch (error) {
@@ -78,7 +97,10 @@ function App() {
     setLoading(true);
     try {
       await userService.deleteUser(deleteDialog.userId);
-      await loadUsers();
+      
+      // Remove from local state
+      setUsers(prevUsers => prevUsers.filter(user => user.id !== deleteDialog.userId));
+      
       showNotification('User deleted successfully!');
       setDeleteDialog({ open: false, userId: null });
     } catch (error) {
@@ -138,7 +160,6 @@ function App() {
         onSubmit={handleFormSubmit}
         user={editingUser}
         loading={loading}
-        editingUser={editingUser}
       />
 
       <ConfirmDialog
